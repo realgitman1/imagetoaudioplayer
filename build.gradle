@@ -1,0 +1,20 @@
+plugins {
+    id 'java'
+}
+
+group = 'me.jeonwooyoung'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    maven { url  "https://jitpack.io" }
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation "com.github.philburk:jsyn:latest.release" // 여기에 실제 JSyn 버전 입력
+}
+
+test {
+    useJUnitPlatform()
+}
