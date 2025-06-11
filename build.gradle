@@ -1,20 +1,60 @@
 plugins {
-    id 'java'
+    id 'java' // Essential for Java projects, handles compilation, testing, and JAR creation.
+    id 'application' // Important! This plugin gives you the 'run' task and simplifies mainClass setup.
 }
 
 group = 'me.jeonwooyoung'
 version = '1.0-SNAPSHOT'
 
 repositories {
-    maven { url  "https://jitpack.io" }
+    // Maven Central is the most common repository for Java libraries.
+    mavenCentral()
+    // JitPack is for GitHub projects that aren't on Maven Central (like some JSyn versions might be).
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
+    // JUnit 5 for testing. 'platform' ensures all JUnit modules use the same version.
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
-    implementation "com.github.philburk:jsyn:latest.release" // 여기에 실제 JSyn 버전 입력
+
+    // JSyn library dependency.
+    // 'latest.release' is convenient but can be risky in production (might break on new versions).
+    // It's generally better to specify a fixed version like 'com.github.philburk:jsyn:20240702'.
+    implementation "com.github.philburk:jsyn:latest.release"
 }
 
+// --- Application Plugin Configuration ---
+// This block tells Gradle which class to run when you use './gradlew run'
+// and is also used by the 'jar' task to set the Main-Class in the JAR's manifest.
+application {
+    mainClass = 'me.jeonwooyoung.synth.YourMainClass' // <--- IMPORTANT: Change this to your actual main class path.
+    // For example: 'me.jeonwooyoung.synth.play.PlaySequence'
+    // or 'me.jeonwooyoung.synth.play.MainApp' if you have one.
+}
+
+// --- Test Configuration ---
 test {
+    // Ensures JUnit Platform is used for running tests.
     useJUnitPlatform()
+}
+
+// --- Fat JAR Configuration ---
+jar {
+    // Sets attributes for the JAR's manifest file.
+    manifest {
+        // Automatically uses the mainClass defined in the 'application' block.
+        attributes 'Main-Class': application.mainClass
+    }
+
+    // This is the core of creating a Fat JAR.
+    // It takes all the JAR files from your 'runtimeClasspath' (your dependencies)
+    // and unpacks them directly into your final JAR.
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+
+    // This helps resolve potential conflicts if multiple dependency JARs contain files
+    // with the exact same path (e.g., META-INF/MANIFEST.MF).
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
