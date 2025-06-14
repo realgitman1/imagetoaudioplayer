@@ -5,6 +5,7 @@ import me.jeonwooyoung.readimage.*;
 import me.jeonwooyoung.synth.play.PlaySequence;
 import me.jeonwooyoung.synth.play.Playexample;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
@@ -22,9 +23,37 @@ public class DropListener extends JFrame implements DropTargetListener {
     JLabel lblNewLabel; // 이 필드는 드롭된 이미지를 표시하는 데 사용될 수 있습니다.
     private Component targetComponent; // 드롭 대상이 되는 컴포넌트
 
+    private Clip clip;
+    String pathName = "C:\\java project\\ImagetoAudioSwing\\src\\main\\resources\\4 Non Blondes - What's Up short.wav";
+
+
     public DropListener(Component component) {
         this.targetComponent = component;
         new DropTarget(targetComponent, this);
+
+
+        try {
+            clip= AudioSystem.getClip();
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
+        }
+        File audioFile=new File(pathName);
+        AudioInputStream audioStream= null;
+        try {
+            audioStream = AudioSystem.getAudioInputStream(audioFile);
+        } catch (UnsupportedAudioFileException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            clip.open(audioStream);
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        clip.start();
     }
 
     @Override
@@ -35,6 +64,7 @@ public class DropListener extends JFrame implements DropTargetListener {
         } else {
             dtde.rejectDrag();
         }
+
     }
 
     @Override
@@ -67,6 +97,8 @@ public class DropListener extends JFrame implements DropTargetListener {
                         File droppedFile = files.get(0); // 첫 번째 파일만 처리
                         System.out.println("Dropped file: " + droppedFile.getAbsolutePath());
 
+                        clip.stop();
+
                         // 파일이 이미지인지 확인하고 BufferedImage로 로드
                         if (isImageFile(droppedFile)) {
                             BufferedImage originalImage = ImageIO.read(droppedFile);
@@ -96,6 +128,9 @@ public class DropListener extends JFrame implements DropTargetListener {
                             //Playexample playexample = new Playexample();
                             //playexample.test();
                             playSequence.playaudio();
+
+                            //비동기로 만들기
+                            //clip.start();
 
                         } else {
                             System.out.println("Dropped file is not an image: " + droppedFile.getAbsolutePath());

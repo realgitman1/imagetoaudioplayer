@@ -38,7 +38,8 @@ public class PlaySequence {
         synth = JSyn.createSynthesizer();
 
         // Add your custom tone generator (JsSaw).
-        synth.add(osc = new JsPulse()); // Make sure JsSaw has a public constructor or a static factory method you can call.
+        synth.add(osc = new JsPulse());
+        osc.generate();// Make sure JsSaw has a public constructor or a static factory method you can call.
         // If JsSaw.getInstance() is preferred, then: synth.add(osc = JsSaw.getInstance());
         // Add an output mixer.
         synth.add(lineOut = new LineOut());
@@ -76,8 +77,8 @@ public class PlaySequence {
 
             // Advance the current time to the start of the next note.
             currentTime += noteDuration;
-            currentFreq *= 1.5 * Math.sin(degree*100);
-            degree += 120;
+            currentFreq *= Math.sin(degree+100);
+            degree += (200*degree);
 
 
         }

@@ -1,13 +1,18 @@
 package me.jeonwooyoung.Gui;
 
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.dnd.DropTargetListener;
+import java.io.File;
+import java.io.IOException;
 
 
 public class TestFrame extends JFrame {
-    public TestFrame() {
+
+
+    public TestFrame() throws LineUnavailableException, UnsupportedAudioFileException, IOException {
         setTitle("Sandwitch Player"); // 프레임 제목 설정
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 300); // 프레임 크기 설정
@@ -23,6 +28,8 @@ public class TestFrame extends JFrame {
         contentPane.add(backgroundimagesandwitch);
 
         new DropListener(backgroundimagesandwitch);
+
+
 
         setVisible(true); //화면에 프레임 출력
     }
