@@ -1,10 +1,11 @@
 package me.jeonwooyoung.Gui;
 
-import me.jeonwooyoung.Imagetoaudio.ImagetoAduioConverter;
-import me.jeonwooyoung.readimage.*;
-import me.jeonwooyoung.synth.play.PlaySequence;
-import me.jeonwooyoung.synth.play.Playexample;
+import me.jeonwooyoung.Istft.ISTFT;
+import me.jeonwooyoung.Istft.IstrefReadImages;
+import me.jeonwooyoung.Istft.MakeImaArray;
+import me.jeonwooyoung.Istft.Player;
 
+import javax.naming.directory.InvalidSearchFilterException;
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +16,7 @@ import java.awt.dnd.*;
 import java.awt.image.BufferedImage; // BufferedImage 임포트
 import java.io.File;
 import java.io.IOException; // IOException 임포트
+import java.util.Arrays;
 import java.util.List; // List 임포트
 import javax.imageio.ImageIO; // ImageIO 임포트
 
@@ -84,7 +86,7 @@ public class DropListener extends JFrame implements DropTargetListener {
 
     @Override
     public void drop(DropTargetDropEvent dtde){
-        System.out.println("drop it !!!");
+        //System.out.println("drop it !!!");
         // 액션이 copy or move인 경우에 읽어들인다.
         if ((dtde.getDropAction() & DnDConstants.ACTION_COPY_OR_MOVE) != 0) {
             dtde.acceptDrop(dtde.getDropAction());
@@ -95,7 +97,7 @@ public class DropListener extends JFrame implements DropTargetListener {
                     List<File> files = (List<File>) tr.getTransferData(DataFlavor.javaFileListFlavor);
                     if (!files.isEmpty()) {
                         File droppedFile = files.get(0); // 첫 번째 파일만 처리
-                        System.out.println("Dropped file: " + droppedFile.getAbsolutePath());
+                        //System.out.println("Dropped file: " + droppedFile.getAbsolutePath());
 
                         clip.stop();
 
@@ -103,12 +105,12 @@ public class DropListener extends JFrame implements DropTargetListener {
                         if (isImageFile(droppedFile)) {
                             BufferedImage originalImage = ImageIO.read(droppedFile);
                             if (originalImage != null) {
-                                System.out.println("Image successfully loaded: " + originalImage.getWidth() + "x" + originalImage.getHeight());
+                                //System.out.println("Image successfully loaded: " + originalImage.getWidth() + "x" + originalImage.getHeight());
                             } else {
                                 System.out.println("Failed to load image from file: " + droppedFile.getAbsolutePath());
                             }
 
-                            ReadImages readImages = new ReadImages(originalImage);
+                            /*ReadImages readImages = new ReadImages(originalImage);
 
                             GetRed getRed = new GetRed(readImages);
                             double redaver = getRed.GetAverageLevel();
@@ -130,7 +132,21 @@ public class DropListener extends JFrame implements DropTargetListener {
                             playSequence.playaudio();
 
                             //비동기로 만들기
-                            //clip.start();
+                            //clip.start();*/
+
+                            IstrefReadImages readIma = new IstrefReadImages(originalImage);
+                            double[][] magnitude = readIma.getImageBrightness();
+                            MakeImaArray makeImaArray = new MakeImaArray(magnitude);
+                            ISTFT istft = new ISTFT(makeImaArray.MakestftData(), 1024, 256);
+                            System.out.println("Success!");
+
+                            double[] outputSignal = istft.Makeistft();
+                            Player player = new Player();
+                            Player.play(outputSignal, 44100f);
+
+
+
+                            //System.out.println("Hello");
 
                         } else {
                             System.out.println("Dropped file is not an image: " + droppedFile.getAbsolutePath());
@@ -142,6 +158,8 @@ public class DropListener extends JFrame implements DropTargetListener {
 
             } catch (UnsupportedFlavorException | IOException e) {
                 e.printStackTrace();
+            } catch (LineUnavailableException e) {
+                throw new RuntimeException(e);
             } finally {
                 dtde.dropComplete(true); // 드롭 완료
             }

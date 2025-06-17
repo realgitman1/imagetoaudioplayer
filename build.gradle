@@ -22,6 +22,7 @@ dependencies {
     // 'latest.release' is convenient but can be risky in production (might break on new versions).
     // It's generally better to specify a fixed version like 'com.github.philburk:jsyn:20240702'.
     implementation "com.github.philburk:jsyn:latest.release"
+    implementation 'com.github.wendykierp:JTransforms:3.1'
 }
 
 // --- Application Plugin Configuration ---
