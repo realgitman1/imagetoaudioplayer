@@ -26,7 +26,7 @@ public class DropListener extends JFrame implements DropTargetListener {
     private Component targetComponent; // 드롭 대상이 되는 컴포넌트
 
     private Clip clip;
-    String pathName = "C:\\java project\\ImagetoAudioSwing\\src\\main\\resources\\4 Non Blondes - What's Up short.wav";
+    String pathName = "C:\\java project\\ImagetoAudioSwing\\src\\main\\resources\\whats up 200 + reverb.wav";
 
 
     public DropListener(Component component) {

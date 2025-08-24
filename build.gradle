@@ -29,7 +29,7 @@ dependencies {
 // This block tells Gradle which class to run when you use './gradlew run'
 // and is also used by the 'jar' task to set the Main-Class in the JAR's manifest.
 application {
-    mainClass = 'me.jeonwooyoung.synth.YourMainClass' // <--- IMPORTANT: Change this to your actual main class path.
+    mainClass = 'me.jeonwooyoung.Main' // <--- IMPORTANT: Change this to your actual main class path.
     // For example: 'me.jeonwooyoung.synth.play.PlaySequence'
     // or 'me.jeonwooyoung.synth.play.MainApp' if you have one.
 }

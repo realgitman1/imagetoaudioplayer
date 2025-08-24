@@ -6,8 +6,8 @@ import java.awt.image.BufferedImage;
 public class IstrefReadImages {
     private BufferedImage originalImage; // 원본 이미지를 저장할 인스턴스 변수
     static BufferedImage resizedImage;// 리사이즈된 이미지를 저장할 인스턴스 변수
-    static int width;                   // 리사이즈된 이미지의 너비
-    static int height;                  // 리사이즈된 이미지의 높이
+    public static int width;                   // 리사이즈된 이미지의 너비
+    public static int height;                  // 리사이즈된 이미지의 높이
     private double[][] magnitude;        // 밝기 값을 저장할 배열
 
     // 생성자
@@ -16,9 +16,9 @@ public class IstrefReadImages {
 
         // 이미지 리사이즈 및 타입 변환 (흑백)
         // 리사이즈된 이미지는 인스턴스 변수 resizedImage에 할당
-        this.resizedImage = new BufferedImage(512, 257, BufferedImage.TYPE_BYTE_GRAY);
+        this.resizedImage = new BufferedImage(512, 512, BufferedImage.TYPE_BYTE_GRAY);
         Graphics2D g = this.resizedImage.createGraphics();
-        g.drawImage(this.originalImage, 0, 0, 512, 257, null); // 원본 이미지를 리사이즈하여 그리기
+        g.drawImage(this.originalImage, 0, 0, 512, 512, null); // 원본 이미지를 리사이즈하여 그리기
         g.dispose(); // 그래픽 컨텍스트 해제
 
         // 리사이즈된 이미지의 너비와 높이 설정
