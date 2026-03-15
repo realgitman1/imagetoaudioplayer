@@ -13,16 +13,16 @@ public class TestFrame extends JFrame {
 
 
     public TestFrame() throws LineUnavailableException, UnsupportedAudioFileException, IOException {
-        setTitle("Sandwitch Player"); // 프레임 제목 설정
+        setTitle("Sandwitch Player");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 300); // 프레임 크기 설정
-        Container contentPane = getContentPane(); //프레임에서 컨텐트팬 받아오기
+        setSize(400, 300);
+        Container contentPane = getContentPane();
 
         JLabel lblNewLabel = new JLabel("Sandwitch Player!");
-        lblNewLabel.setBounds(0, 0, 124, 15); // 레이블 위치 설정
-        contentPane.add(lblNewLabel); // 콘텐트팬에 레이블 붙이기
+        lblNewLabel.setBounds(0, 0, 124, 15);
+        contentPane.add(lblNewLabel);
 
-        JLabel backgroundimagesandwitch = new JLabel(" ", JLabel.CENTER); //가운데로 수평정렬
+        JLabel backgroundimagesandwitch = new JLabel(" ", JLabel.CENTER);
         ImageIcon icon = new ImageIcon("C:\\java project\\ImagetoAudioSwing\\src\\main\\resources\\peanut.jpg");
         backgroundimagesandwitch.setIcon(icon);
         contentPane.add(backgroundimagesandwitch);
@@ -31,6 +31,6 @@ public class TestFrame extends JFrame {
 
 
 
-        setVisible(true); //화면에 프레임 출력
+        setVisible(true);
     }
 }

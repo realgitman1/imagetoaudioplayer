@@ -14,7 +14,7 @@ public class ISTFT {
     private int windowSize;
     private int hopSize;
 
-    //window 1024, hopsize 257
+
     public ISTFT(double[][][] stftData, int windowSize, int hopSize) {
         this.stftData = stftData;
         this.windowSize = windowSize;
@@ -34,29 +34,29 @@ public class ISTFT {
         for (int frame = 0; frame < numFrames; frame++) {
             double[] complex = new double[windowSize * 2];
 
-            // Fill with real and imaginary parts from STFT data
+
             for (int k = 0; k < stftData[frame].length; k++) {
                 complex[2 * k]     = stftData[frame][k][0]; // real
                 complex[2 * k + 1] = stftData[frame][k][1]; // imag
             }
 
-            // Fill the rest with Hermitian symmetry
+
             for (int k = stftData[0].length; k < windowSize / 2 + 1; k++) {
                 complex[2 * k] = 0;
                 complex[2 * k + 1] = 0;
             }
 
-            //여기서 멈춘다 -----------------------------------------------------------------------
+
             for (int k = windowSize / 2 + 1; k < windowSize; k++) {
                 int mirrorIdx = windowSize - k;
                 complex[2 * k]     = stftData[frame][mirrorIdx][0];
                 complex[2 * k + 1] = -stftData[frame][mirrorIdx][1];
             }
 
-            // Perform Inverse FFT
+
             fft.complexInverse(complex, true);
 
-            // Window and Overlap-Add
+
             for (int n = 0; n < windowSize; n++) {
                 int idx = frame * hopSize + n;
                 if (idx < signalLength) {
@@ -66,7 +66,7 @@ public class ISTFT {
             }
         }
 
-        // Normalize to avoid amplitude distortion
+
         for (int i = 0; i < outputSignal.length; i++) {
             if (normalization[i] > 0) {
                 outputSignal[i] /= normalization[i];

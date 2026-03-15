@@ -38,22 +38,19 @@ public class ImagetoAduioConverter {
         this.degree = (double) (getred + getGreen + getred) / 128;
     }
     
-    //여기에 공식을 적용해서 red blue green brightness 네가지 변수로 time melody 등 여러가지 변수 배열 생성
+
     public ArrayList<Double> generateAudioParameters() {
 
         ArrayList<Double> generateAudioParametersArrayList;
         generateAudioParametersArrayList = new ArrayList<Double>();
 
-        //첫번째 변수 freq
+
         generateAudioParametersArrayList.add(freq);
 
-        //두번째 변수 time
         generateAudioParametersArrayList.add(time);
 
-        //세번째 변수 노트수
         generateAudioParametersArrayList.add((double) notes);
 
-        //degree
         generateAudioParametersArrayList.add(degree);
 
         System.out.println("here is array!" + generateAudioParametersArrayList);
