@@ -9,7 +9,8 @@ build/
 /src/main/java/me/jeonwooyoung/recording/
 /src/main/java/me/jeonwooyoung/swing/
 /src/main/java/me/jeonwooyoung/synth/
-/src/main/java/me/jeonwooyoung/wltempered/
+/src/main/java/me/jeonwooyoung/welltempered/
+/src/main/resources/
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
