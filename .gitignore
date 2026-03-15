@@ -3,12 +3,12 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-midi/
-readimage/
-recording/
-swing/
-synth/
-wltempered/
+\src\main\java\me\jeonwooyoung\midi/
+\src\main\java\me\jeonwooyoungreadimage/
+\src\main\java\me\jeonwooyoungrecording/
+\src\main\java\me\jeonwooyoungswing/
+\src\main\java\me\jeonwooyoungsynth/
+\src\main\java\me\jeonwooyoungwltempered/
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
